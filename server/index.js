@@ -28,7 +28,7 @@ app.get("/api", (req, res, next) => {
     const maxTime = utcTime + validTimeRange;
   
  
-    const githubFileUrl = 'https://github.com/CryptoCholo/hngX/server/index.js';
+    const githubFileUrl = 'https://github.com/CryptoCholo/hngX/blob/main/server/index.js';
     const githubRepoUrl = 'https://github.com/CryptoCholo/hngX';
   
     const response = {
