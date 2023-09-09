@@ -17,14 +17,15 @@ app.get("/api", (req, res, next) => {
     // Get the current day of the week
     const currentDay = new Date().toLocaleDateString('en-US', { weekday: 'long' });
   
-    // Get the current UTC time and format it
-    const currentUtcTime = new Date().toISOString();
-  
-    // Validate UTC time within a +/-2 minute window
-    const validTimeRange = 2 * 60 * 1000; 
-    const utcTime = new Date().getTime();
-    const minTime = utcTime - validTimeRange;
-    const maxTime = utcTime + validTimeRange;
+  // Get the current UTC time and adjust it to UTC+1
+  const now = new Date();
+  const currentUtcTime = new Date(now.getTime() + 60 * 60 * 1000); // Add 1 hour
+
+  // Validate UTC+1 time within a +/-2 minute window
+  const validTimeRange = 2 * 60 * 1000; // 2 minutes in milliseconds
+  const utcTime = currentUtcTime.getTime();
+  const minTime = utcTime - validTimeRange;
+  const maxTime = utcTime + validTimeRange;
   
  
     const githubFileUrl = 'https://github.com/CryptoCholo/hngX/blob/main/server/index.js';
@@ -33,7 +34,7 @@ app.get("/api", (req, res, next) => {
     const response = {
       slack_name,
       current_day: currentDay,
-      utc_time: currentUtcTime,
+      utc_time:  currentUtcTime.toISOString(),
       track,
       github_file_url: githubFileUrl,
       github_repo_url: githubRepoUrl,
@@ -41,10 +42,10 @@ app.get("/api", (req, res, next) => {
     };
     
     // Check if the UTC time is within the valid time range
-    if (utcTime) {
+    if (utcTime >= minTime && utcTime <= maxTime) {
       res.json(response);
     } else {
-      res.status(400).json({ error: 'Invalid UTC time' });
+        res.status(400).json({ error: 'Invalid UTC+1 time' });
     }
 });
 
