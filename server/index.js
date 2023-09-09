@@ -14,18 +14,12 @@ app.get("/api", (req, res, next) => {
 
     const { slack_name, track } = req.query;
 
-    // Get the current day of the week
-    const currentDay = new Date().toLocaleDateString('en-US', { weekday: 'long' });
-  
-    // Get the current UTC time and format it
-    const now = new Date();
-    const currentUtcTime = now.toISOString();
-  
-    // Validate UTC time within a +/-2 minute window
-    const validTimeRange = 2 * 60 * 1000; 
-    const utcTime = now.getTime();
-    const minTime = utcTime - validTimeRange;
-    const maxTime = utcTime + validTimeRange;
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const currentDate = new Date();
+    const currentDay = daysOfWeek[currentDate.getUTCDay()];
+
+    // Get current UTC time
+    const utcTime = new Date().toISOString();
   
  
     const githubFileUrl = 'https://github.com/CryptoCholo/hngX/blob/main/server/index.js';
@@ -34,7 +28,7 @@ app.get("/api", (req, res, next) => {
     const response = {
       slack_name,
       current_day: currentDay,
-      utc_time: currentUtcTime,
+      utc_time: utcTime,
       track,
       github_file_url: githubFileUrl,
       github_repo_url: githubRepoUrl,
