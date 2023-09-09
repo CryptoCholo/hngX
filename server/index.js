@@ -34,7 +34,7 @@ app.get("/api", (req, res, next) => {
     const response = {
       slack_name,
       current_day: currentDay,
-      utc_time:  currentUtcTime.toISOString(),
+      utc_time:  currentUtcTime.toISOString().replace(/\.\d{3}Z$/, 'Z'),
       track,
       github_file_url: githubFileUrl,
       github_repo_url: githubRepoUrl,
