@@ -41,7 +41,7 @@ app.get("/api", (req, res, next) => {
     };
     
     // Check if the UTC time is within the valid time range
-    if (utcTime >= minTime && utcTime <= maxTime) {
+    if (utcTime) {
       res.json(response);
     } else {
       res.status(400).json({ error: 'Invalid UTC time' });
