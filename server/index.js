@@ -19,11 +19,11 @@ app.get("/api", (req, res, next) => {
   
   // Get the current UTC time and adjust it to UTC+1
   const now = new Date();
-  const currentUtcTime = new Date(now.getTime() + 2 * 60 * 60 * 1000); // Add 1 hour
+  const currentUtcTime = new Date(now.getTime() +  60 * 60 * 1000); // Add 1 hour
 
   // Validate UTC+1 time within a +/-2 minute window
   const validTimeRange = 2 * 60 * 1000; // 2 minutes in milliseconds
-  const utcTime = currentUtcTime.getTime();
+  const utcTime = currentUtcTime.getTime() +  60 * 60 * 1000;
   const minTime = utcTime - validTimeRange;
   const maxTime = utcTime + validTimeRange;
   
